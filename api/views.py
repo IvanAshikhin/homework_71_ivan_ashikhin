@@ -1,8 +1,10 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import authentication, permissions
+from rest_framework import authentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from api.permission import IsAuthor
 from api.serializes import PostSerializer
 from posts.models import Post
 
@@ -22,6 +24,8 @@ class DetailPostView(APIView):
 
 
 class DeleteView(APIView):
+    permission_classes = [IsAuthor]
+
     def delete(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
         post_pk = post.pk
@@ -31,6 +35,8 @@ class DeleteView(APIView):
 
 
 class PostUpdateView(APIView):
+    permission_classes = [IsAuthor]
+
     def put(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
         serializer = PostSerializer(post, data=request.data)
@@ -42,8 +48,7 @@ class PostUpdateView(APIView):
 
 
 class PostCreateView(APIView):
-    authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         data = request.data.copy()
@@ -56,6 +61,8 @@ class PostCreateView(APIView):
 
 
 class LikePostView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
         user = request.user
