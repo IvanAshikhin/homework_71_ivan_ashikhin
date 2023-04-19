@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django_bootstrap5',
     "posts",
     "accounts",
+    'rest_framework',
+    'api',
+
 ]
 
 MIDDLEWARE = [
