@@ -53,3 +53,19 @@ class PostCreateView(APIView):
             serializer.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
+
+
+class LikePostView(APIView):
+    def post(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        user = request.user
+        if user in post.user_likes.all():
+            post.likes_count -= 1
+            post.user_likes.remove(user)
+            post.save()
+            return Response({'detail': 'Post unliked successfully.'})
+        else:
+            post.likes_count += 1
+            post.user_likes.add(user)
+            post.save()
+            return Response({'detail': 'Post liked successfully.'})
