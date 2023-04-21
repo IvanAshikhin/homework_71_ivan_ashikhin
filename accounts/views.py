@@ -4,7 +4,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
-from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, CreateView, DetailView, UpdateView
 from accounts.forms import LoginForm, CustomUserCreationForm, UserChangeForm
 from posts.models import Post
@@ -101,7 +100,6 @@ class UserChangeView(UpdateView):
         return reverse('profile', kwargs={'pk': self.object.pk})
 
 
-@require_POST
 def like_post(request, post_pk):
     post = get_object_or_404(Post, id=post_pk)
     user = request.user

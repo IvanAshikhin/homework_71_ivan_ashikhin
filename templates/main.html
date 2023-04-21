@@ -72,7 +72,6 @@
                         let likes_count = data.likes_count;
                         let liked = data.liked;
                         like_btn.find('.card-text').text(likes_count);
-                        $('#likes-count-' + post_pk).text(likes_count);
                         $('.likes .card-text[data-post="' + post_pk + '"]').text(likes_count);
                         post.likes_count = likes_count;
                         if (liked) {
