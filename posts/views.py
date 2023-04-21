@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils.http import urlencode
-from django.views.generic import ListView, CreateView, DetailView, UpdateView
+from django.views.generic import ListView, CreateView, UpdateView
 
 from accounts.models import Account
 from posts.forms import SearchForm, PostForm, ReviewForm

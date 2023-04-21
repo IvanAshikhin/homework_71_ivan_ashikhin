@@ -11,12 +11,13 @@
                 <div class="card-body wide">
                     <h5 class="card-title">{{ user_obj.username }}</h5>
                     <div class="text-center">
-                        <img src="/uploads/{{ user_obj.avatar }}" alt="{{ user_obj.username }} avatar" class="rounded-circle"
+                        <img src="/uploads/{{ user_obj.avatar }}" alt="{{ user_obj.username }} avatar"
+                             class="rounded-circle"
                              style="width: 120px; height: 120px; margin-right: 600px">
                     </div>
-                {% if user_obj.sex %}
-                    <p class="card-text">Sex: {{ user_obj.sex }}</p>
-                {% endif %}
+                    {% if user_obj.sex %}
+                        <p class="card-text">Sex: {{ user_obj.sex }}</p>
+                    {% endif %}
                     <p class="card-text">Subscriptions: {{ subscriber_count }}</p>
                     <p class="card-text">Subscribers: {{ subscription_count }}</p>
                     <p class="card-text">Posts: {{ post_count }}</p>
