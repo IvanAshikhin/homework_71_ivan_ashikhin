@@ -1,8 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
+from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, CreateView, DetailView, UpdateView
 from accounts.forms import LoginForm, CustomUserCreationForm, UserChangeForm
 from posts.models import Post
@@ -99,17 +101,19 @@ class UserChangeView(UpdateView):
         return reverse('profile', kwargs={'pk': self.object.pk})
 
 
+@require_POST
 def like_post(request, post_pk):
     post = get_object_or_404(Post, id=post_pk)
     user = request.user
     if user in post.user_likes.all():
         post.likes_count -= 1
         post.user_likes.remove(user)
-        post.save()
+        liked = False
         messages.success(request, 'Post unliked successfully.')
     else:
         post.likes_count += 1
         post.user_likes.add(user)
-        post.save()
+        liked = True
         messages.success(request, 'Post liked successfully.')
-    return redirect('main')
+    post.save()
+    return JsonResponse({'likes_count': post.likes_count, 'liked': liked})
